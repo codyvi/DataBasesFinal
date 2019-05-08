@@ -39,7 +39,7 @@ class Database:
             query += 'WHERE sID = {}'.format(student_id)
             
         query+= '''
-                Group by sID
+                order by sID
                 '''
 
         print('Query: {}'.format(query), file=sys.stdout)
@@ -86,7 +86,7 @@ class Database:
             query += 'WHERE pID = {}'.format(professor_id)
         
         query+= '''
-                Group by pID
+                order by pID
                 '''
 
         print('Query: {}'.format(query), file=sys.stdout)
@@ -109,6 +109,50 @@ class Database:
                 DELETE FROM Professor
                 WHERE pID = {}
                 '''.format(professor_id)
+        print('Query: {}'.format(query), file=sys.stdout)
+        self.cur.execute(query)
+        self.con.commit()
+
+    def list_departments(self):
+        query = '''
+                SELECT *
+                FROM Department
+                '''
+        print('Query: {}'.format(query), file=sys.stdout)
+        self.cur.execute(query)
+        result = self.cur.fetchall()
+        
+        return result
+
+    def list_department(self, department_name):
+        query = "SELECT * FROM Department "
+        if department_name != '':
+            query += "WHERE dName = '{}'".format(department_name)
+        
+        query+= '''
+                order by dId
+                '''
+
+        print('Query: {}'.format(query), file=sys.stdout)
+        self.cur.execute(query)
+        result = self.cur.fetchall()
+            
+        return result
+
+    def insert_department(self,dId, dName, dNumber, dPhoneNumber, dOffice):
+        query = '''
+                INSERT INTO Department (dId, dName, dNumber, dPhoneNumber, dOffice)
+                VALUES ('{}', '{}', '{}', '{}', '{}')
+                '''.format(dId, dName, dNumber, dPhoneNumber, dOffice)
+        print('Query: {}'.format(query), file=sys.stdout)
+        self.cur.execute(query)
+        self.con.commit()
+
+    def delete_department(self, department_id):
+        query = '''
+                DELETE FROM Department
+                WHERE dId = {}
+                '''.format(department_id)
         print('Query: {}'.format(query), file=sys.stdout)
         self.cur.execute(query)
         self.con.commit()

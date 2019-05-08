@@ -110,3 +110,51 @@ def del_proffesors():
 
     return render_template('professor.html', result=res, content_type='application/json')
 
+
+@app.route('/department', methods=['GET', 'POST'])
+def department():
+    def db_query():
+        _db = db.Database()
+        if request.method == "POST":
+            dId = request.form["dId"]
+            dName = request.form["dName"]
+            dNumber = request.form["dNumber"]
+            dPhoneNumber = request.form["dPhoneNumber"]
+            dOffice = request.form["dOffice"]
+            _db.insert_department(dId, dName, dNumber, dPhoneNumber, dOffice)
+            print('Department inserted', file=sys.stdout)
+
+            deps = _db.list_departments()
+            print('Listing all the departments', file=sys.stdout)
+
+            return deps
+
+        else:
+            if request.method == "GET":
+                department_name = request.values.get('dName', '')
+                deps = _db.list_department(department_name)
+                print('Listing department given info ' + department_name , file=sys.stdout)
+                return deps
+
+    res = db_query()
+
+    return render_template('department.html', result=res, content_type='application/json')
+
+
+@app.route('/del_departments', methods=["POST"])
+def del_departments():
+    def db_query():
+        _db = db.Database()
+        if request.method == "POST":
+            if len(request.form) != 0:
+                department_id = request.form["dId"]
+                deps = _db.delete_department(department_id)
+        deps = _db.list_departments()
+        print('Listing all Departments from normal query', file=sys.stdout)
+        return deps
+
+    res = db_query()
+
+    return render_template('department.html', result=res, content_type='application/json')
+
+
