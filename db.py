@@ -57,6 +57,15 @@ class Database:
         self.cur.execute(query)
         self.con.commit()
 
+    def delete_student(self, student_id):
+        query = '''
+                DELETE FROM Students
+                WHERE sID = {}
+                '''.format(student_id)
+        print('Query: {}'.format(query), file=sys.stdout)
+        self.cur.execute(query)
+        self.con.commit()
+
     def list_professors(self):
         query = '''
                 SELECT *
@@ -91,6 +100,15 @@ class Database:
                 INSERT INTO Professor (pID, pUPRC, pName, pAddress, pPhoneNumber, pSex, pBDate)
                 VALUES ('{}', '{}', '{}', '{}', '{}', '{}','{}')
                 '''.format(pID, pUPRC, pName, pAddress, pPhoneNumber, pSex, pBDate)
+        print('Query: {}'.format(query), file=sys.stdout)
+        self.cur.execute(query)
+        self.con.commit()
+
+    def delete_professor(self, professor_id):
+        query = '''
+                DELETE FROM Professor
+                WHERE pID = {}
+                '''.format(professor_id)
         print('Query: {}'.format(query), file=sys.stdout)
         self.cur.execute(query)
         self.con.commit()

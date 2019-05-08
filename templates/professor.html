@@ -87,5 +87,16 @@
     {% endfor %}
     {% endif %}
 </table>
+
+<h2>Delete Proffesor</h2>
+<form method="POST" action="{{ url_for('del_proffesors') }}">
+    <div>
+        <label for="pID">Professor ID:</label>
+        <input type="text" id="pID" name="pID">
+        <input type="submit" value="Submit">
+    </div>
+</form>
+
+
 </body>
 </html>

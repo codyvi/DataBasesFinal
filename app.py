@@ -45,6 +45,23 @@ def students():
 
     return render_template('students.html', result=res, content_type='application/json')
 
+@app.route('/del_students', methods=["POST"])
+def del_students():
+    def db_query():
+        _db = db.Database()
+        if request.method == "POST":
+            if len(request.form) != 0:
+                student_id = request.form["sID"]
+                studs = _db.delete_student(student_id)
+        studs = _db.list_students()
+        print('Listing all students from normal query', file=sys.stdout)
+        return studs
+
+    res = db_query()
+
+    return render_template('students.html', result=res, content_type='application/json')
+
+
 @app.route('/professor', methods=['GET', 'POST'])
 def professor():
     def db_query():
@@ -71,6 +88,23 @@ def professor():
                 profs = _db.list_professor(professor_id)
                 print('Listing professor given info ' + professor_id , file=sys.stdout)
                 return profs
+
+    res = db_query()
+
+    return render_template('professor.html', result=res, content_type='application/json')
+
+
+@app.route('/del_proffesors', methods=["POST"])
+def del_proffesors():
+    def db_query():
+        _db = db.Database()
+        if request.method == "POST":
+            if len(request.form) != 0:
+                professor_id = request.form["pID"]
+                profs = _db.delete_professor(professor_id)
+        profs = _db.list_professors()
+        print('Listing all Proffesors from normal query', file=sys.stdout)
+        return profs
 
     res = db_query()
 
