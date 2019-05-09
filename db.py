@@ -157,3 +157,75 @@ class Database:
         self.cur.execute(query)
         self.con.commit()
 
+
+    def list_coursebysid(self, student_id):
+        query = '''
+                SELECT c.cName, s.sName
+                FROM Course c, Department d, Students s
+                where c.dId = d.dId 
+                AND d.dId = s.sDepartment 
+                '''
+        if student_id != '':
+            query += 'AND s.sID = {}'.format(student_id)
+            
+        query+= '''
+                order by s.sID
+                '''
+
+        print('Query: {}'.format(query), file=sys.stdout)
+        self.cur.execute(query)
+        result = self.cur.fetchall()
+
+        return result
+
+    def list_profbyid(self, proffesor_id):
+        query = '''
+               SELECT p.pID, p.pName, s.hTime
+               from schedule s, professorschedule ps, professor p 
+               WHERE s.hId = ps.hId
+               AND ps.pID = p.pID  
+                '''
+        if proffesor_id != '':
+            query += 'AND p.pID = {}'.format(proffesor_id)
+
+        print('Query: {}'.format(query), file=sys.stdout)
+        self.cur.execute(query)
+        result = self.cur.fetchall()
+
+        return result
+
+    def list_ecoasbyid(self, proffesor_id):
+        query = '''
+             SELECT g.gEcoa,c.cNumber, c.cName, g.gNumber, g.gSemester, g.gYear 
+             FROM professor p, groupp g, course c 
+             WHERE p.pID = g.pID 
+             AND g.cNumber = c.cNumber 
+                '''
+        if proffesor_id != '':
+            query += 'AND p.pID = {}'.format(proffesor_id)
+
+        query+= '''
+                ORDER BY g.gYear, g.gSemester, c.cNumber, g.gID
+                '''
+
+        print('Query: {}'.format(query), file=sys.stdout)
+        self.cur.execute(query)
+        result = self.cur.fetchall()
+
+        return result
+
+    def list_history(self, proffesor_id):
+        query = '''
+                SELECT p.pID, p.pName, c.cName
+                FROM professor p, course c, groupp gp
+                WHERE gp.cNumber = c.cNumber
+                and gp.pID = p.pID
+                '''
+        if proffesor_id != '':
+            query += 'AND p.pID = {}'.format(proffesor_id)
+
+        print('Query: {}'.format(query), file=sys.stdout)
+        self.cur.execute(query)
+        result = self.cur.fetchall()
+
+        return result

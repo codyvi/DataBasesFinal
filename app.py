@@ -158,3 +158,68 @@ def del_departments():
     return render_template('department.html', result=res, content_type='application/json')
 
 
+@app.route('/CourseBySID', methods=['GET','POST'])
+def CourseBySID():
+    def db_query():
+        _db = db.Database()
+   
+        if request.method == "GET":
+            student_id = request.values.get('sID', '')
+            cbySid = _db.list_coursebysid(student_id)
+            print('Listing Course Name of Given Student', file=sys.stdout)
+
+            return cbySid
+
+    res = db_query()
+
+    return render_template('CourseBySID.html', result=res, content_type='application/json')
+
+
+@app.route('/TiemNomyNom', methods=['GET','POST'])
+def TiemNomyNom():
+    def db_query():
+        _db = db.Database()
+   
+        if request.method == "GET":
+            professor_id = request.values.get('pID', '')
+            TiNoyNo = _db.list_profbyid(professor_id)
+            print('Listing Proffesor Name, Id and available time of Given Professor', file=sys.stdout)
+
+            return TiNoyNo
+
+    res = db_query()
+
+    return render_template('TiemNomyNom.html', result=res, content_type='application/json')
+
+
+@app.route('/Ecoas', methods=['GET','POST'])
+def Ecoas():
+    def db_query():
+        _db = db.Database()
+   
+        if request.method == "GET":
+            professor_id = request.values.get('pID', '')
+            ecos = _db.list_ecoasbyid(professor_id)
+            print('Listing course ecoa grade and more data by given professor', file=sys.stdout)
+
+            return ecos
+
+    res = db_query()
+
+    return render_template('Ecoas.html', result=res, content_type='application/json')
+
+@app.route('/Phistory', methods=['GET','POST'])
+def Phistory():
+    def db_query():
+        _db = db.Database()
+   
+        if request.method == "GET":
+            professor_id = request.values.get('pID', '')
+            pHis = _db.list_history(professor_id)
+            print('Listing Professor History', file=sys.stdout)
+
+            return pHis
+
+    res = db_query()
+
+    return render_template('Phistory.html', result=res, content_type='application/json')
