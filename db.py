@@ -160,12 +160,11 @@ class Database:
 
     def list_coursebysid(self, student_id):
         query = '''
-                 SELECT  c.cName, s.sName
-                 FROM students s, takecourse tk, course c, groupp g
-                 WHERE s.sID = tk.sID
-                 and tk.tcGroupNumber = g.gNumber
-                 and c.dId = s.sDepartment
-                 and g.cNumber = c.cNumber
+                SELECT c.cName, s.sName 
+                FROM students s, takecourse tk, course c, groupp g 
+                WHERE s.sID = tk.sID 
+                and tk.tcGroupNumber = g.gNumber 
+                and g.cNumber = c.cNumber
                 '''
         if student_id != '':
             query += 'AND s.sID = {}'.format(student_id)
